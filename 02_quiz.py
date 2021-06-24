@@ -104,20 +104,22 @@ class Questions:
                 print("Well done that is correct moving onto next question")
                 self.question_label.config(text=questions[1])
                 self.the_drop_box.destroy()
-                correct_and_incorrect_answers_1.append("Question 1: Correct")
+                correct_and_incorrect_answers_1.append("On Question 1: "
+                                                       "you got it Correct")
             else:
                 print("Sorry that is incorrect it was actually 2013")
                 self.question_label.config(text=questions[1])
                 self.the_drop_box.destroy()
-                correct_and_incorrect_answers_1.append("Question 1: "
-                                                       "Incorrect")
+                correct_and_incorrect_answers_1.append("On Question 1: you "
+                                                       "got it Incorrect")
         # Question two is asked here
         elif self.the_drop_box_2.winfo_exists():
             if answer == answers_2[2]:
                 print("Well done that is correct moving onto next question")
                 self.question_label.config(text=questions[2])
                 self.the_drop_box_2.destroy()
-                correct_and_incorrect_answers_2.append("Question 2: Correct")
+                correct_and_incorrect_answers_2.append("On Question 2: "
+                                                       "you got it Correct")
             elif answer in answers_1:
                 print("Please select a new answer")
             else:
@@ -125,36 +127,38 @@ class Questions:
                       "Real Time Strategy")
                 self.question_label.config(text=questions[2])
                 self.the_drop_box_2.destroy()
-                correct_and_incorrect_answers_2.append("Question 2: "
-                                                       "Incorrect")
+                correct_and_incorrect_answers_2.append("On Question 2: you "
+                                                       "got it Incorrect")
         # Question three is asked here
         elif self.the_drop_box_3.winfo_exists():
             if answer == answers_3[3]:
                 print("Well done that is correct moving onto next question")
                 self.question_label.config(text=questions[3])
                 self.the_drop_box_3.destroy()
-                correct_and_incorrect_answers_3.append("Question 3: Correct")
+                correct_and_incorrect_answers_3.append("On Question 3: "
+                                                       "you got it Correct")
             elif answer in answers_2:
                 print("Please select a new answer")
             else:
                 print("Sorry that is incorrect he's actually Indian")
                 self.question_label.config(text=questions[3])
                 self.the_drop_box_3.destroy()
-                correct_and_incorrect_answers_3.append("Question 3: "
-                                                       "Incorrect")
+                correct_and_incorrect_answers_3.append("On Question 3: you "
+                                                       "got it Incorrect")
         # Question four is asked here
         elif self.the_drop_box_4.winfo_exists():
             if answer == answers_4[1]:
                 print("Well done that is correct moving onto next question")
                 self.the_drop_box_4.destroy()
-                correct_and_incorrect_answers_4.append("Question 4: Correct")
+                correct_and_incorrect_answers_4.append("On Question 4: "
+                                                       "you got it Correct")
             elif answer in answers_3:
                 print("Please select a new answer")
             else:
                 print("Sorry that is incorrect it's actually made in Russia")
                 self.the_drop_box_4.destroy()
-                correct_and_incorrect_answers_4.append("Question 4: "
-                                                       "Incorrect")
+                correct_and_incorrect_answers_4.append("On Question 4: you "
+                                                       "got it Incorrect")
 
     def statistics(self):
         Statistics(self)
