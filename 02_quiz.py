@@ -2,6 +2,7 @@
 # Importing all of the needed things
 from tkinter import *
 from functools import partial
+import re
 
 # Global lists for use in stats class
 correct_and_incorrect_answers_1 = ["2013", "2014", "2010", "2016"]
@@ -10,6 +11,7 @@ correct_and_incorrect_answers_2 = ["Ree Toxic Stans", "Real Tab Stigma",
 correct_and_incorrect_answers_3 = ["Bangladeshi", "Bhutanese", "Japanese",
                                    "Indian"]
 correct_and_incorrect_answers_4 = ["Belarus", "Russia", "Poland", "Australia"]
+statistics_for_export = []
 # First Class this one is the main wireframe that asks all the questions
 
 
@@ -168,9 +170,6 @@ class Statistics:
     def __init__(self, partner):
         background_color = "#4682B4"  # Background color for wireframe
 
-        # Answers and questions for the stats function
-        answer = StringVar()
-
         # Disables stats button when the wireframe is up
         partner.stats_button.config(state=DISABLED)
 
@@ -187,7 +186,7 @@ class Statistics:
         self.stats_frame.grid()
         # Heading for stats wireframe
         self.stats_heading = Label(self.stats_frame, text="Statistics",
-                                   font=("times new roman", 17, "bold"),
+                                   font=("time new roman", 17, "bold"),
                                    bg=background_color, fg="white")
         self.stats_heading.grid(row=0, column=0)
         # Text that explains how the wireframe
@@ -208,51 +207,196 @@ class Statistics:
                                              bg=background_color, fg="white",
                                              padx=10, pady=10)
         self.stats_explanation_label.grid(row=1, column=0)
+        # Results for question 1
         self.stats_label_1 = Label(self.stats_frame, text="",
                                    font=("arial", 14), justify=CENTER,
                                    bg=background_color, fg="white",
                                    padx=10, pady=10)
         self.stats_label_1.grid(row=2, column=0)
+        # Results for question 2
         self.stats_label_2 = Label(self.stats_frame, text="",
                                    font=("arial", 14), justify=CENTER,
                                    bg=background_color, fg="white",
                                    padx=10, pady=10)
         self.stats_label_2.grid(row=3, column=0)
+        # Results for question 3
         self.stats_label_3 = Label(self.stats_frame, text="",
                                    font=("arial", 14), justify=CENTER,
                                    bg=background_color, fg="white",
                                    padx=10, pady=10)
         self.stats_label_3.grid(row=4, column=0)
+        # Results for question 4
         self.stats_label_4 = Label(self.stats_frame, text="",
                                    font=("arial", 14), justify=CENTER,
                                    bg=background_color, fg="white",
                                    padx=10, pady=10)
         self.stats_label_4.grid(row=5, column=0)
+        # Button for the export class calling the functions
+        # that calls the class
+        self.export_button = Button(self.stats_frame, text="Export to file",
+                                    font=("arial", 10, "bold"),
+                                    command=lambda: self.export())
+        self.export_button.grid(row=6, column=0)
+        # Button for destroying stats after not needed
+        self.dismiss_button = Button(self.stats_frame, text="Dismiss",
+                                     font=("arial", 10, "bold"),
+                                     command=partial(self.close_stats, partner))
+        self.dismiss_button.grid(row=6, column=1)
 
         # Question one checked here
         if len(correct_and_incorrect_answers_1) == 5:
             self.stats_label_1.config(text=correct_and_incorrect_answers_1[4])
+            statistics_for_export.append(correct_and_incorrect_answers_1[4])
         else:
             self.stats_label_1.config(text="Question 1: No input entered")
         # Question two answer checked here
         if len(correct_and_incorrect_answers_2) == 5:
             self.stats_label_2.config(text=correct_and_incorrect_answers_2[4])
+            statistics_for_export.append(correct_and_incorrect_answers_2[4])
         else:
             self.stats_label_2.config(text="Question 2: No input Entered")
         # Question three answer checked here
         if len(correct_and_incorrect_answers_3) == 5:
             self.stats_label_3.config(text=correct_and_incorrect_answers_3[4])
+            statistics_for_export.append(correct_and_incorrect_answers_3[4])
         else:
             self.stats_label_3.config(text="Question 3: No input entered")
         # Question four answer checked here
         if len(correct_and_incorrect_answers_4) == 5:
             self.stats_label_4.config(text=correct_and_incorrect_answers_4[4])
+            statistics_for_export.append(correct_and_incorrect_answers_4[4])
         else:
             self.stats_label_4.config(text="Question 4: No input entered")
 
     def close_stats(self, partner):
         partner.stats_button.config(state=NORMAL)
         self.stats_box.destroy()
+
+    def export(self):
+        Export(self)
+
+
+class Export:
+    def __init__(self, partner):
+
+        print(statistics_for_export)
+
+        background_color = "#8b0000"  # Color is dark red same as wireframe
+
+        # Disabling button while inside export thing
+        partner.export_button.config(state=DISABLED)
+        # Export window
+        self.export_box = Toplevel()
+        # If user closes the box with the x button it will close
+        self.export_box.protocol('WM_DELETE_WINDOW',
+                                 partial(self.close_export, partner))
+        # Frame for all of the export labels and buttons etc
+        self.export_frame = Frame(self.export_box, width=200,
+                                  bg=background_color)
+        self.export_frame.grid()
+        # Export heading for top of wireframe
+        self.export_heading = Label(self.export_frame, text="Export",
+                                    font=("arial", 14, "bold"), fg="white",
+                                    bg=background_color)
+        self.export_heading.grid(row=0, column=0)
+        # Tells user how to export
+        self.export_explanation = Label(self.export_frame,
+                                        text="Enter the name of the file "
+                                             "in the box below and press save"
+                                             " button to your statistics "
+                                             "to a text file",
+                                        justify=CENTER, bg=background_color,
+                                        fg="white", font=("arial", 12,
+                                                          "italic"),
+                                        wrap=225, padx=10, pady=10)
+        self.export_explanation.grid(row=1, column=0)
+        # Warning export text
+        self.export_explanation_waring = Label(self.export_frame,
+                                               text="If the filename you "
+                                                    "enter already exists "
+                                                    "its contents will be "
+                                                    "replaced with these "
+                                                    "new statistics",
+                                               justify=CENTER,
+                                               bg=background_color,
+                                               fg="white", font=("arial", 10,
+                                                                 "italic"),
+                                               wrap=225, padx=10, pady=10)
+        self.export_explanation_waring.grid(row=2, column=0)
+        # Entry for filename
+        self.export_entry = Entry(self.export_frame, width=30,
+                                  font=("arial", 12), justify=CENTER)
+        self.export_entry.grid(row=3, pady=10)
+        # Error Message Labels (initially blank, row 4)
+        self.save_error_label = Label(self.export_frame, text="", fg="white",
+                                      bg=background_color)
+        self.save_error_label.grid(row=4)
+        # Frame for the buttons
+        self.button_frames = Frame(self.export_frame)
+        self.button_frames.grid(row=5, pady=10)
+        # Save to file button and close window button
+        self.save_to_file_button = Button(self.button_frames,
+                                          text="Save to file",
+                                          command=partial(lambda: self.save_export(partner)))
+        self.save_to_file_button.grid(row=6, column=0)
+        self.close_window_button = Button(self.button_frames,
+                                          text="Close window",
+                                          command=partial(self.close_export, partner))
+        self.close_window_button.grid(row=6, column=1)
+        if len(statistics_for_export) == 0:
+            self.save_to_file_button.config(state=DISABLED)
+        else:
+            self.save_to_file_button.config(state=NORMAL)
+
+    def save_export(self, partner):
+        # checking for valid input
+        valid_characters = "[A-Za-z0-9_]"
+        has_errors = "no"
+
+        filename = self.export_entry.get()
+        print(filename)
+
+        for no_input_entered in filename:
+            if re.match(valid_characters, no_input_entered):
+                continue
+            elif filename == " ":
+                problem = "no spaces allowed"
+
+            else:
+                problem = ("no {}'s allowed".format(no_input_entered))
+            has_errors = "yes"
+            break
+        if filename == "":
+            problem = "can't be blank"
+            has_errors = "yes"
+        if has_errors == "yes":
+            # Display the error message
+            self.save_error_label.config(text="Invalid filename - {}".format(problem))
+            # Change background color to show the user it is wrong
+            self.export_entry.config(bg="#CD5C5C")
+            print()
+
+        else:
+            # If there are no errors create the file
+            # add the suffix of .txt
+            filename = filename + ".txt"
+
+            # create file
+            file = open(filename, "w+")
+
+            # add new line after every question
+            for item in statistics_for_export:
+                file.write(item + "\n")
+
+            # close file
+            file.close()
+
+            # close box
+            self.close_export(partner)
+
+    def close_export(self, partner):
+        partner.export_button.config(state=NORMAL)
+        self.export_box.destroy()
 
 
 # Main Routine
