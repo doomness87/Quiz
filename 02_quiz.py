@@ -86,12 +86,22 @@ class Questions:
                                                     answers_2, answers_3,
                                                     answers_4, questions))
         self.submit_button.grid(row=3, column=0)
-        self.stats_button = Button(self.questions_frame,
+        # Frame for the other classes
+        self.stats_help_frame = Frame(self.questions_frame)
+        self.stats_help_frame.grid(row=5, pady=10)
+        # Stats button going down the bottom
+        self.stats_button = Button(self.stats_help_frame,
                                    font=("arial", 12, "bold"),
                                    text="Statistics", justify=LEFT,
                                    bg="#F0FFFF", width=10,
                                    command=lambda: self.statistics())
-        self.stats_button.grid(row=6, column=0)
+        self.stats_button.grid(row=0, column=0)
+        # Help button going near the stat button
+        self.help_button = Button(self.stats_help_frame,
+                                  font=("arial", 12, "bold"),
+                                  text="Help", width=10, bg="white",
+                                  command=self.help)
+        self.help_button.grid(row=0, column=1)
     # Function for asking the questions and activating the buttons
 
     def answer_function(self, answer, answers_1, answers_2,
@@ -164,6 +174,25 @@ class Questions:
 
     def statistics(self):
         Statistics(self)
+
+    def help(self):
+        get_help = Help(self)
+        get_help.help_instructions_label.config(text="Please click the drop "
+                                                     "down menu then click "
+                                                     "the answer you think "
+                                                     "it is \n\n"
+                                                     "After doing this you "
+                                                     "can click the statistics "
+                                                     "button to see how you "
+                                                     "did \n\n"
+                                                     "Also can export "
+                                                     "your results to a file "
+                                                     "with the export button "
+                                                     "you do this by clicking "
+                                                     "the export button and "
+                                                     "typing in the filename "
+                                                     "you want without "
+                                                     ".txt at the end ")
 
 
 class Statistics:
@@ -397,6 +426,47 @@ class Export:
     def close_export(self, partner):
         partner.export_button.config(state=NORMAL)
         self.export_box.destroy()
+
+
+class Help:
+    def __init__(self, partner):
+        background_color = "light blue"  # made it light blue because it
+        # was in wireframe
+
+        # Disables help button when open
+        partner.help_button.config(state=DISABLED)
+
+        # Creating the help wireframe
+        self.help_box = Toplevel()
+
+        # Running the help box
+        self.help_box.protocol('WM_DELETE_WINDOW', partial(self.close_help, partner))
+
+        # Creating the main frame for labels etc
+        self.help_frame = Frame(self.help_box, bg=background_color)
+        self.help_frame.grid()
+        # Heading for help so user knows what they opened
+        self.help_heading = Label(self.help_frame, text="Help / Instructions",
+                                  font=("arial", 16, "bold"), bg=background_color)
+        self.help_heading.grid(row=0)
+
+        # Instructions label row 1
+        self.help_instructions_label = Label(self.help_frame, text="",
+                                             justify=CENTER, width=50,
+                                             bg=background_color, wrap=250)
+        self.help_instructions_label.grid(row=1, column=0)
+
+        # Closing button that closes the help wireframe when finished
+        self.closing_button = Button(self.help_frame, text="Close window",
+                                     width=10, bg="black", fg="white",
+                                     font=("arial", 10),
+                                     command=partial(self.close_help, partner))
+        self.closing_button.grid(row=2, pady=10)
+
+    def close_help(self, partner):
+        # Make help button normal
+        partner.help_button.config(state=NORMAL)
+        self.help_box.destroy()
 
 
 # Main Routine
