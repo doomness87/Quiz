@@ -26,6 +26,7 @@ class Questions:
         # Color That will show up in the background
         # of the wireframe chosen
         background_color = "gold"
+        # Color for the button doing the easiest one on the eyes
         button_color = "#FFFFFF"
         answer = StringVar()
         # Non global lists for parameters in the later functions
@@ -96,7 +97,7 @@ class Questions:
                                    bg="#F0FFFF", width=10,
                                    command=lambda: self.statistics())
         self.stats_button.grid(row=0, column=0)
-        # Help button going near the stat button
+        # Help button going near the stat button at the bottom
         self.help_button = Button(self.stats_help_frame,
                                   font=("arial", 12, "bold"),
                                   text="Help", width=10, bg="white",
@@ -116,61 +117,70 @@ class Questions:
                 print("Well done that is correct moving onto next question")
                 self.question_label.config(text=questions[1])
                 self.the_drop_box.destroy()
+                # Adding to list for statistics if correct
                 correct_and_incorrect_answers_1.append("On Question 1: "
-                                                       "you got it Correct")
+                                                       "You got it correct")
             else:
                 print("Sorry that is incorrect it was actually 2013")
                 self.question_label.config(text=questions[1])
                 self.the_drop_box.destroy()
-                correct_and_incorrect_answers_1.append("On Question 1: you "
-                                                       "got it Incorrect")
+                # Adding to list for statistics if incorrect
+                correct_and_incorrect_answers_1.append("On Question 1: You "
+                                                       "got it incorrect")
         # Question two is asked here
         elif self.the_drop_box_2.winfo_exists():
             if answer == answers_2[2]:
                 print("Well done that is correct moving onto next question")
                 self.question_label.config(text=questions[2])
+                # To move onto next question destroying box
                 self.the_drop_box_2.destroy()
                 correct_and_incorrect_answers_2.append("On Question 2: "
-                                                       "you got it Correct")
+                                                       "You got it correct")
             elif answer in answers_1:
+                # In case they spam the same answer over and over
                 print("Please select a new answer")
             else:
                 print("Sorry that is incorrect it was actually "
                       "Real Time Strategy")
                 self.question_label.config(text=questions[2])
+                # To move onto next question destroying box
                 self.the_drop_box_2.destroy()
-                correct_and_incorrect_answers_2.append("On Question 2: you "
-                                                       "got it Incorrect")
+                correct_and_incorrect_answers_2.append("On Question 2: You "
+                                                       "got it incorrect")
         # Question three is asked here
         elif self.the_drop_box_3.winfo_exists():
             if answer == answers_3[3]:
                 print("Well done that is correct moving onto next question")
+                # Changing to the next question when user answered this one
                 self.question_label.config(text=questions[3])
                 self.the_drop_box_3.destroy()
                 correct_and_incorrect_answers_3.append("On Question 3: "
-                                                       "you got it Correct")
+                                                       "You got it correct")
             elif answer in answers_2:
                 print("Please select a new answer")
             else:
                 print("Sorry that is incorrect he's actually Indian")
+                # Changing to the next question when user answered this one
                 self.question_label.config(text=questions[3])
                 self.the_drop_box_3.destroy()
-                correct_and_incorrect_answers_3.append("On Question 3: you "
-                                                       "got it Incorrect")
+                correct_and_incorrect_answers_3.append("On Question 3: You "
+                                                       "got it incorrect")
         # Question four is asked here
         elif self.the_drop_box_4.winfo_exists():
             if answer == answers_4[1]:
+                # Different print statement for correct
                 print("Well done that is correct moving onto next question")
                 self.the_drop_box_4.destroy()
                 correct_and_incorrect_answers_4.append("On Question 4: "
-                                                       "you got it Correct")
+                                                       "You got it correct")
             elif answer in answers_3:
                 print("Please select a new answer")
             else:
+                # Different print statement for incorrect
                 print("Sorry that is incorrect it's actually made in Russia")
                 self.the_drop_box_4.destroy()
-                correct_and_incorrect_answers_4.append("On Question 4: you "
-                                                       "got it Incorrect")
+                correct_and_incorrect_answers_4.append("On Question 4: You "
+                                                       "got it incorrect")
 
     def statistics(self):
         Statistics(self)
@@ -180,7 +190,8 @@ class Questions:
         get_help.help_instructions_label.config(text="Please click the drop "
                                                      "down menu then click "
                                                      "the answer you think "
-                                                     "it is \n\n"
+                                                     "it is and click"
+                                                     "the submit button \n\n"
                                                      "After doing this you "
                                                      "can click the statistics "
                                                      "button to see how you "
@@ -197,12 +208,13 @@ class Questions:
 
 class Statistics:
     def __init__(self, partner):
-        background_color = "#4682B4"  # Background color for wireframe
+        background_color = "#4a86e8"  # Background color for wireframe
+        # dark blue as documented
 
         # Disables stats button when the wireframe is up
         partner.stats_button.config(state=DISABLED)
 
-        # Creates box
+        # Creates box to open up statistics
         self.stats_box = Toplevel()
 
         # Destroys stats box and re-enables stats button
@@ -310,11 +322,11 @@ class Export:
 
         print(statistics_for_export)
 
-        background_color = "#8b0000"  # Color is dark red same as wireframe
+        background_color = "#980000"  # Color is dark red same as wireframe
 
         # Disabling button while inside export thing
         partner.export_button.config(state=DISABLED)
-        # Export window
+        # Export window created
         self.export_box = Toplevel()
         # If user closes the box with the x button it will close
         self.export_box.protocol('WM_DELETE_WINDOW',
@@ -331,9 +343,9 @@ class Export:
         # Tells user how to export
         self.export_explanation = Label(self.export_frame,
                                         text="Enter the name of the file "
-                                             "in the box below and press save"
-                                             " button to your statistics "
-                                             "to a text file",
+                                             "in the box below and press the "
+                                             "save button to save your "
+                                             "statistics to a text file",
                                         justify=CENTER, bg=background_color,
                                         fg="white", font=("arial", 12,
                                                           "italic"),
@@ -374,6 +386,8 @@ class Export:
         self.close_window_button.grid(row=6, column=1)
         if len(statistics_for_export) == 0:
             self.save_to_file_button.config(state=DISABLED)
+            print("You can't export anything yet because you haven't "
+                  "answered any question")
         else:
             self.save_to_file_button.config(state=NORMAL)
 
@@ -381,6 +395,7 @@ class Export:
         # checking for valid input
         valid_characters = "[A-Za-z0-9_]"
         has_errors = "no"
+        problem = ""
 
         filename = self.export_entry.get()
         print(filename)
@@ -388,16 +403,18 @@ class Export:
         for no_input_entered in filename:
             if re.match(valid_characters, no_input_entered):
                 continue
-            elif filename == " ":
+            elif no_input_entered == " ":
                 problem = "no spaces allowed"
 
             else:
                 problem = ("no {}'s allowed".format(no_input_entered))
             has_errors = "yes"
             break
+
         if filename == "":
             problem = "can't be blank"
             has_errors = "yes"
+
         if has_errors == "yes":
             # Display the error message
             self.save_error_label.config(text="Invalid filename - {}".format(problem))
@@ -430,7 +447,7 @@ class Export:
 
 class Help:
     def __init__(self, partner):
-        background_color = "light blue"  # made it light blue because it
+        background_color = "cyan"  # made it cyan because it
         # was in wireframe
 
         # Disables help button when open
