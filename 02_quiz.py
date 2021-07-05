@@ -194,7 +194,7 @@ class Questions:
         get_help.help_instructions_label.config(text="Please click the drop "
                                                      "down menu then click "
                                                      "the answer you think "
-                                                     "it is and click"
+                                                     "it is and click "
                                                      "the submit button \n\n"
                                                      "After doing this you "
                                                      "can click the statistics "
