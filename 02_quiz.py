@@ -173,6 +173,8 @@ class Questions:
                 self.the_drop_box_4.destroy()
                 correct_and_incorrect_answers_4.append("On Question 4: "
                                                        "You got it correct")
+                self.submit_button.config(state=DISABLED)
+                self.question_label.destroy()
             elif answer in answers_3:
                 print("Please select a new answer")
             else:
@@ -181,6 +183,8 @@ class Questions:
                 self.the_drop_box_4.destroy()
                 correct_and_incorrect_answers_4.append("On Question 4: You "
                                                        "got it incorrect")
+                self.submit_button.config(state=DISABLED)
+                self.question_label.destroy()
 
     def statistics(self):
         Statistics(self)
